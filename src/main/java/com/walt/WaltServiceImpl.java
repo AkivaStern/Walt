@@ -15,6 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class WaltServiceImpl implements WaltService {
 
+    //Constant time for each delivery
+    public static final int DELIVERY_DURATION = 60;
+    //To not allow placing orders for a time in the past above this threshold
+    public static final int ORDER_TIMEOUT_SECONDS = 5;
+
     @Resource
     DriverRepository driverRepository;
 
@@ -117,7 +122,7 @@ public class WaltServiceImpl implements WaltService {
     private boolean isAvailable(List<Delivery> deliveries, Date deliveryTime) {
         if( deliveries.size() == 0 ) return true;
         for(Delivery del : deliveries) {
-            if(Math.abs(TimeUnit.MILLISECONDS.toMinutes(deliveryTime.getTime() - del.getDeliveryTime().getTime())) < 60) {
+            if(Math.abs(TimeUnit.MILLISECONDS.toMinutes(deliveryTime.getTime() - del.getDeliveryTime().getTime())) < DELIVERY_DURATION) {
                 return false;
             }
         }
@@ -133,7 +138,7 @@ public class WaltServiceImpl implements WaltService {
      * @throws BadOrderException if parameters are not ok
      */
     private void checkParameters(Customer customer, Restaurant restaurant, Date deliveryTime) throws BadOrderException {
-        if(TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - deliveryTime.getTime()) > 5)
+        if(TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - deliveryTime.getTime()) > ORDER_TIMEOUT_SECONDS)
             throw new BadOrderException("Cannot place order in the past.");
 
         if(!customer.getCity().getName().equals(restaurant.getCity().getName())) {
