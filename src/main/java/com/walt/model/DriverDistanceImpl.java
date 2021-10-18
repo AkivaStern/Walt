@@ -1,11 +1,11 @@
 package com.walt.model;
 
-public class DriverDistanceImp implements DriverDistance {
+public class DriverDistanceImpl implements DriverDistance {
 
     private Driver driver;
     private Long totalDistance;
 
-    public DriverDistanceImp(Driver driver, Long totalDistance) {
+    public DriverDistanceImpl(Driver driver, Long totalDistance) {
         this.driver = driver;
         this.totalDistance = totalDistance;
     }

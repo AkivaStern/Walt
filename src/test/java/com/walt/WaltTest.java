@@ -119,45 +119,46 @@ public class WaltTest {
     @Test
     public void testBasics(){
 
-        createDelivery("Akiva" , "Jerusalem", "koresh", "Jerusalem", "All meat restaurant", new Date());
-        createDelivery("Yishai" , "Jerusalem", "ibn ezra", "Jerusalem", "All meat restaurant", new Date());
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date());
-        createDelivery("Akiva" , "Jerusalem", "koresh", "Jerusalem", "All meat restaurant", new Date());
+        Date initialTime = new Date();
+        createDelivery("Akiva" , "Jerusalem", "koresh", "Jerusalem", "All meat restaurant", initialTime);
+        createDelivery("Yishai" , "Jerusalem", "ibn ezra", "Jerusalem", "All meat restaurant", initialTime);
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", initialTime);
+        createDelivery("Akiva" , "Jerusalem", "koresh", "Jerusalem", "All meat restaurant", initialTime);
         //these two will will not be added:
-        createDelivery("Joseph" , "Tel-Aviv", "allenby", "Jerusalem", "All meat restaurant", new Date());
-        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date());
+        createDelivery("Joseph" , "Tel-Aviv", "allenby", "Jerusalem", "All meat restaurant", initialTime);
+        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", initialTime);
 
         assertEquals(((List<Customer>) customerRepository.findAll()).size(), 9);
         assertEquals(((List<Delivery>) deliveryRepository.findAll()).size(), 4);
 
-        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(initialTime.getTime() + ( 1 * 60 * 60 * 1000)));
 
         assertEquals(((List<Delivery>) deliveryRepository.findAll()).size(), 5);
         assertEquals(deliveryRepository.findTopByOrderByIdDesc().getDriver().getName(), "Robert");
 
-        createDelivery("Mozart" , "Jerusalem", "Wolfgang Amadeus Mozart", "Jerusalem", "All meat restaurant", new Date((long) (System.currentTimeMillis() + ( 2.5 * 60 * 60 * 1000))));
+        createDelivery("Mozart" , "Jerusalem", "Wolfgang Amadeus Mozart", "Jerusalem", "All meat restaurant", new Date((long) (initialTime.getTime() + ( 2.5 * 60 * 60 * 1000))));
 
         assertEquals(deliveryRepository.findTopByOrderByIdDesc().getDriver().getName(), "David");
 
-        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
-        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(initialTime.getTime() + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Eitan" , "Jerusalem", "yanai", "Jerusalem", "All meat restaurant", new Date(initialTime.getTime() + ( 1 * 60 * 60 * 1000)));
 
         assertEquals(deliveryRepository.findTopByOrderByIdDesc().getDriver().getName(), "David");
 
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date());
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date());
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", initialTime);
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", initialTime);
         //this one won't be added:
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date());
-        createDelivery("Jonathan" , "Tel-Aviv", "rothschield", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", initialTime);
+        createDelivery("Jonathan" , "Tel-Aviv", "rothschield", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime() + ( 1 * 60 * 60 * 1000)));
 
         assertEquals(((List<Customer>) customerRepository.findAll()).size(), 10);
         assertEquals(((List<Delivery>) deliveryRepository.findAll()).size(), 11);
 
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 2 * 60 * 60 * 1000)));
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 2 * 60 * 60 * 1000)));
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 5 * 60 * 60 * 1000)));
-        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(System.currentTimeMillis() + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime()  + ( 2 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime()  + ( 2 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime()  + ( 1 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime()  + ( 5 * 60 * 60 * 1000)));
+        createDelivery("Beethoven" , "Tel-Aviv", "Ludwig van Beethoven", "Tel-Aviv", "Only vegan", new Date(initialTime.getTime()  + ( 1 * 60 * 60 * 1000)));
 
         assertEquals(((List<Delivery>) deliveryRepository.findAll()).size(), 16);
         assertEquals(deliveryRepository.findTopByOrderByIdDesc().getDriver().getName(), "Daniel");

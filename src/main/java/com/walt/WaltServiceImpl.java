@@ -102,9 +102,9 @@ public class WaltServiceImpl implements WaltService {
     private List<DriverDistance> calculateDriverReport(List<Driver> driverList) {
 
         return driverList.stream()
-                .map(driver-> new DriverDistanceImp(driver, ((Double) deliveryRepository.findAllDeliverysByDriver(driver)
+                .map(driver-> new DriverDistanceImpl(driver, ((Double) deliveryRepository.findAllDeliverysByDriver(driver)
                         .stream().mapToDouble(Delivery::getDistance).sum()).longValue()))
-                .sorted(Comparator.comparingLong(DriverDistanceImp::getTotalDistance).reversed())
+                .sorted(Comparator.comparingLong(DriverDistanceImpl::getTotalDistance).reversed())
                 .collect(Collectors.toList());
     }
 
@@ -117,7 +117,7 @@ public class WaltServiceImpl implements WaltService {
     private boolean isAvailable(List<Delivery> deliveries, Date deliveryTime) {
         if( deliveries.size() == 0 ) return true;
         for(Delivery del : deliveries) {
-            if(Math.abs(TimeUnit.MILLISECONDS.toMinutes(deliveryTime.getTime() - del.getDeliveryTime().getTime())) < 59) {
+            if(Math.abs(TimeUnit.MILLISECONDS.toMinutes(deliveryTime.getTime() - del.getDeliveryTime().getTime())) < 60) {
                 return false;
             }
         }
