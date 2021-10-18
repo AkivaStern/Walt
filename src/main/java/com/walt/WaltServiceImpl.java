@@ -48,8 +48,7 @@ public class WaltServiceImpl implements WaltService {
 
             if (driver == null)
                 throw new BadOrderException("No available driver in " + restaurant.getCity().getName()
-                        + ", for delivery time: " + deliveryTime);
-
+                        + ", for delivery time: " + deliveryTime + ". Customer: " + customer.getName() + ".");
 
             return new Delivery(driver, restaurant, customer, deliveryTime);
         }
