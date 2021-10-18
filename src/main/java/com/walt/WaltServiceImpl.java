@@ -35,7 +35,9 @@ public class WaltServiceImpl implements WaltService {
     @Override
     public Delivery createOrderAndAssignDriver(Customer customer, Restaurant restaurant, Date deliveryTime) throws BadOrderException {
 
+        //also assumes order cannot be placed for a time in the past (allows 5 second delay)
         checkParameters(customer, restaurant, deliveryTime);
+
         synchronized(this) {
             Driver driver = driverRepository.findAllDriversByCity(customer.getCity())
                     .stream()
@@ -81,9 +83,8 @@ public class WaltServiceImpl implements WaltService {
      * @param city of customer
      * @param address of customer
      * @return Customer -- the existing or newly created customer.
-     * @throws BadOrderException If order creation cannot be fulfilled.
      */
-    public synchronized Customer findOrCreateCustomer(String name, City city, String address) throws BadOrderException {
+    public synchronized Customer findOrCreateCustomer(String name, City city, String address) {
 
         Customer customer = customerRepository.findByNameAndCityAndAddress(name, city, address);
 
@@ -136,7 +137,7 @@ public class WaltServiceImpl implements WaltService {
         if(TimeUnit.MILLISECONDS.toMinutes(new Date().getTime() - deliveryTime.getTime()) > 5)
             throw new BadOrderException("Cannot place order in the past.");
 
-        if(customer.getCity().getName() != restaurant.getCity().getName()) {
+        if(!customer.getCity().getName().equals(restaurant.getCity().getName())) {
             throw new BadOrderException("Customer must be from the same city as restaurant!");
         }
     }
